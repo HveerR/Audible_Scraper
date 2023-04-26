@@ -233,4 +233,4 @@ while True:
 category = driver.find_element(By.XPATH, '//div[contains(@class, "linkListWrapper")]//li/span[contains(@class, "bold")]')
 category = category.text
 df = pd.DataFrame({'Title': title, 'Subtitle': subtitle, 'Narrated By': narrator, 'Series': series, 'Length': length, 'Release Date': release_date, 'Language': language, 'Ratings': ratings})
-df.to_csv(f"AudibleBooksData_f'{category}'.csv", index=False)
+df.to_csv(f"AudibleBooksData_{category}.csv", index=False)
