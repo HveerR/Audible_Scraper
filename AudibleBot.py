@@ -220,7 +220,7 @@ while True:
         except:
             language.append(None)
         try:
-            ratings.append(book.find_element(By.XPATH, './/li[contains(@class, "ratingsLabel")]'))
+            ratings.append(book.find_element(By.XPATH, './/li[contains(@class, "ratingsLabel")]').text)
         except:
             ratings.append(None)
     try:
@@ -230,7 +230,7 @@ while True:
     except:
         break
 
-category = driver.find_element(By.XPATH('//div[contains(@class, "linkListWrapper")]//li/span[contains(@class, "bold")]'))
+category = driver.find_element(By.XPATH, '//div[contains(@class, "linkListWrapper")]//li/span[contains(@class, "bold")]')
 category = category.text
 df = pd.DataFrame({'Title': title, 'Subtitle': subtitle, 'Narrated By': narrator, 'Series': series, 'Length': length, 'Release Date': release_date, 'Language': language, 'Ratings': ratings})
 df.to_csv(f"AudibleBooksData_f'{category}'.csv", index=False)
