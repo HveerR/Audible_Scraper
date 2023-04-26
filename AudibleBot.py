@@ -1,9 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
 from rapidfuzz import process, fuzz
+
 
 import time
 import pandas as pd
@@ -14,10 +17,8 @@ path = "/Users/hveer/Downloads/chromedrive"
 driver = webdriver.Chrome(options=options, service=Service(path))
 driver.get(website)
 
-time.sleep(3)
-
 try:
-    menu = driver.find_element(By.XPATH, '//span[contains(@class,"bc-button-text-inner")][contains(text(), "Go back to Audible.com")]')
+    menu = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//span[contains(@class,"bc-button-text-inner")][contains(text(), "Go back to Audible.com")]')))
     menu.click()
 except:
     pass
@@ -28,9 +29,8 @@ try:
 except:
     pass
 
-time.sleep(3)
 try:
-    menu = driver.find_element(By.XPATH, '//span[contains(@class,"bc-button-text-inner")][contains(text(), "Go back to Audible.com")]')
+    menu = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//span[contains(@class,"bc-button-text-inner")][contains(text(), "Go back to Audible.com")]')))
     menu.click()
 except:
     pass
@@ -224,12 +224,12 @@ while True:
         except:
             ratings.append(None)
     try:
-        next = driver.find_element(By.XPATH, '//li[contains(@class,"bc-list-item")]//span[contains(@class, "nextButton")]/a')
+        next = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '//li[contains(@class,"bc-list-item")]//span[contains(@class, "nextButton")]/a')))
         next.click()
-        time.sleep(3)
     except:
         break
 
+driver.quit()
 category = driver.find_element(By.XPATH, '//div[contains(@class, "linkListWrapper")]//li/span[contains(@class, "bold")]')
 category = category.text
 df = pd.DataFrame({'Title': title, 'Subtitle': subtitle, 'Narrated By': narrator, 'Series': series, 'Length': length, 'Release Date': release_date, 'Language': language, 'Ratings': ratings})
